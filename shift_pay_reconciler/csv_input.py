@@ -4,22 +4,8 @@ from decimal import Decimal
 
 
 def parse_shifts(text_stream):
-    """
-    Parse and validate a shift CSV from a text stream.
-
-    Args:
-        text_stream: An open text iterable/file object (already opened)
-
-    Returns:
-        A list of record dicts in file order, with parsed timestamps and decimals
-
-    Raises:
-        ValueError: If required columns are missing, timestamps are unparseable,
-                   or clock_out is not after clock_in
-    """
     reader = csv.DictReader(text_stream)
 
-    # Check that all required columns are present
     if reader.fieldnames is None:
         raise ValueError("missing required column(s): clock_in, clock_out, jurisdiction, pay_received")
 
@@ -35,7 +21,6 @@ def parse_shifts(text_stream):
 
     for row_num, row in enumerate(reader, start=1):
         try:
-            # Parse timestamps
             clock_in_str = row['clock_in'].strip()
             clock_out_str = row['clock_out'].strip()
 
@@ -49,14 +34,11 @@ def parse_shifts(text_stream):
             except (ValueError, TypeError):
                 raise ValueError(f"row {row_num}: unparseable timestamp {clock_out_str}")
 
-            # Validate clock_out is after clock_in
             if clock_out <= clock_in:
                 raise ValueError(f"row {row_num}: clock_out ({clock_out_str}) is not after clock_in ({clock_in_str})")
 
-            # Parse pay_received as Decimal
             pay_received = Decimal(row['pay_received'].strip())
 
-            # Parse optional fields
             shift_id = row.get('shift_id')
             if shift_id is not None:
                 shift_id = shift_id.strip() if shift_id else None
@@ -70,7 +52,6 @@ def parse_shifts(text_stream):
             mileage_str = row.get('mileage')
             mileage = Decimal(mileage_str.strip()) if mileage_str and mileage_str.strip() else None
 
-            # Build record dict
             record = {
                 'row': row_num,
                 'shift_id': shift_id,
