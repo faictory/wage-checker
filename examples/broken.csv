@@ -1,0 +1,3 @@
+shift_id,clock_in,clock_out,jurisdiction,pay_received,break_minutes
+1,2026-01-05T09:00,2026-01-05T17:00,US-WA-Seattle,150.00,0
+2,2026-01-06T18:00,2026-01-06T07:00,US-CA,206.25,0
