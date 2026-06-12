@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shift-pay-reconciler"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=9.0", "ruff>=0.15"]
+
+[project.scripts]
+shift-pay-reconciler = "shift_pay_reconciler.cli:main"
+
+[tool.setuptools]
+package-data = { shift_pay_reconciler = ["data/*.json"] }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["shift_pay_reconciler*"]
