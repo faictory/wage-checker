@@ -16,26 +16,25 @@ def load_dataset(path=None):
     Raises:
         ValueError: If file is unreadable or invalid against schema.
     """
-    try:
-        if path is None:
-            # Load from bundled package data
-            try:
-                # Use importlib.resources to load from package
-                files = resources.files('shift_pay_reconciler').joinpath('data')
-                dataset_file = files.joinpath('minwage-2026.1.0.json')
-                data = json.loads(dataset_file.read_text())
-            except Exception as e:
-                raise ValueError(f"Failed to load bundled dataset: {e}")
-        else:
-            # Load from specified file path
+    if path is None:
+        # Load from bundled package data
+        try:
+            files = resources.files('shift_pay_reconciler').joinpath('data')
+            dataset_file = files.joinpath('minwage-2026.1.0.json')
+            data = json.loads(dataset_file.read_text())
+        except (FileNotFoundError, TypeError) as e:
+            raise ValueError(f"Failed to load bundled dataset: {e}") from e
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in bundled dataset: {e}") from e
+    else:
+        # Load from specified file path
+        try:
             with open(path, 'r') as f:
                 data = json.load(f)
-    except FileNotFoundError as e:
-        raise ValueError(f"Dataset file not found: {path}") from e
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON in dataset file: {e}") from e
-    except Exception as e:
-        raise ValueError(f"Failed to read dataset: {e}") from e
+        except FileNotFoundError as e:
+            raise ValueError(f"Dataset file not found: {path}") from e
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Invalid JSON in dataset file: {e}") from e
 
     # Validate schema
     if 'dataset_version' not in data:
@@ -83,10 +82,8 @@ def select_rate(dataset, jurisdiction, effective_date):
     for rate_entry in rates:
         rate_effective = date.fromisoformat(rate_entry['effective'])
         if rate_effective <= effective_date:
-            applicable_rate = rate_entry
-        else:
-            # Rates should be ordered, so once we pass the date, stop
-            break
+            if applicable_rate is None or date.fromisoformat(rate_entry['effective']) > date.fromisoformat(applicable_rate['effective']):
+                applicable_rate = rate_entry
 
     if applicable_rate is None:
         raise ValueError(f"No minimum wage rate effective on or before {effective_date} for jurisdiction {jurisdiction}")
