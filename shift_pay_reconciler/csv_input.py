@@ -20,53 +20,47 @@ def parse_shifts(text_stream):
     records = []
 
     for row_num, row in enumerate(reader, start=1):
+        clock_in_str = row['clock_in'].strip()
+        clock_out_str = row['clock_out'].strip()
+
         try:
-            clock_in_str = row['clock_in'].strip()
-            clock_out_str = row['clock_out'].strip()
+            clock_in = datetime.fromisoformat(clock_in_str)
+        except (ValueError, TypeError):
+            raise ValueError(f"row {row_num}: unparseable timestamp {clock_in_str}")
 
-            try:
-                clock_in = datetime.fromisoformat(clock_in_str)
-            except (ValueError, TypeError):
-                raise ValueError(f"row {row_num}: unparseable timestamp {clock_in_str}")
+        try:
+            clock_out = datetime.fromisoformat(clock_out_str)
+        except (ValueError, TypeError):
+            raise ValueError(f"row {row_num}: unparseable timestamp {clock_out_str}")
 
-            try:
-                clock_out = datetime.fromisoformat(clock_out_str)
-            except (ValueError, TypeError):
-                raise ValueError(f"row {row_num}: unparseable timestamp {clock_out_str}")
+        if clock_out <= clock_in:
+            raise ValueError(f"row {row_num}: clock_out ({clock_out_str}) is not after clock_in ({clock_in_str})")
 
-            if clock_out <= clock_in:
-                raise ValueError(f"row {row_num}: clock_out ({clock_out_str}) is not after clock_in ({clock_in_str})")
+        pay_received = Decimal(row['pay_received'].strip())
 
-            pay_received = Decimal(row['pay_received'].strip())
+        shift_id = row.get('shift_id', '').strip() or None
 
-            shift_id = row.get('shift_id')
-            if shift_id is not None:
-                shift_id = shift_id.strip() if shift_id else None
+        break_minutes_str = row.get('break_minutes', '0')
+        break_minutes = int(break_minutes_str.strip()) if break_minutes_str else 0
 
-            break_minutes_str = row.get('break_minutes', '0')
-            break_minutes = int(break_minutes_str.strip()) if break_minutes_str else 0
+        tips_str = row.get('tips')
+        tips = Decimal(tips_str.strip()) if tips_str and tips_str.strip() else None
 
-            tips_str = row.get('tips')
-            tips = Decimal(tips_str.strip()) if tips_str and tips_str.strip() else None
+        mileage_str = row.get('mileage')
+        mileage = Decimal(mileage_str.strip()) if mileage_str and mileage_str.strip() else None
 
-            mileage_str = row.get('mileage')
-            mileage = Decimal(mileage_str.strip()) if mileage_str and mileage_str.strip() else None
+        record = {
+            'row': row_num,
+            'shift_id': shift_id,
+            'clock_in': clock_in,
+            'clock_out': clock_out,
+            'jurisdiction': row['jurisdiction'].strip(),
+            'pay_received': pay_received,
+            'break_minutes': break_minutes,
+            'tips': tips,
+            'mileage': mileage,
+        }
 
-            record = {
-                'row': row_num,
-                'shift_id': shift_id,
-                'clock_in': clock_in,
-                'clock_out': clock_out,
-                'jurisdiction': row['jurisdiction'].strip(),
-                'pay_received': pay_received,
-                'break_minutes': break_minutes,
-                'tips': tips,
-                'mileage': mileage,
-            }
-
-            records.append(record)
-
-        except ValueError:
-            raise
+        records.append(record)
 
     return records
