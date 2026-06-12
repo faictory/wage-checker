@@ -88,7 +88,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'text'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
         assert result_text.returncode == 0
         text_output = result_text.stdout
@@ -98,7 +97,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
         assert result_json.returncode == 0
         json_output = result_json.stdout
@@ -148,7 +146,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
 
         assert result.returncode == 0
@@ -165,7 +162,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
 
         assert result.returncode == 0
@@ -184,7 +180,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
 
         obj = json.loads(result.stdout)
@@ -204,7 +199,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'text'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
         assert result_text.returncode == 0
 
@@ -212,7 +206,6 @@ class TestCliJsonParity:
             ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
-            cwd='/Users/boldfield/.agentask/wt-worker-3-fAIctory-shift-pay-reconciler',
         )
         assert result_json.returncode == 0
 
