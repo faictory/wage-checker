@@ -1,5 +1,6 @@
 import argparse
 import sys
+from io import StringIO
 
 from . import __version__
 from .csv_input import parse_shifts
@@ -61,7 +62,6 @@ def main(argv=None):
             with open(args.csv_path, 'r') as f:
                 csv_text = f.read()
 
-        from io import StringIO
         csv_stream = StringIO(csv_text)
         shifts = parse_shifts(csv_stream)
 
@@ -78,10 +78,6 @@ def main(argv=None):
         print(report)
         return 0
 
-    except ValueError as e:
+    except (ValueError, OSError) as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-
-
-if __name__ == '__main__':
-    sys.exit(main())
