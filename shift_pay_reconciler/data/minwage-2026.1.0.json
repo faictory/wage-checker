@@ -1,0 +1,48 @@
+{
+  "dataset_version": "2026.1.0",
+  "jurisdictions": {
+    "US-FED": {
+      "rates": [
+        {
+          "effective": "2009-07-24",
+          "min_rate": "7.25"
+        }
+      ],
+      "overtime": {
+        "daily_threshold": null,
+        "weekly_threshold": 40,
+        "multiplier": "1.5"
+      }
+    },
+    "US-CA": {
+      "rates": [
+        {
+          "effective": "2026-01-01",
+          "min_rate": "16.50"
+        }
+      ],
+      "overtime": {
+        "daily_threshold": 8,
+        "weekly_threshold": 40,
+        "multiplier": "1.5"
+      }
+    },
+    "US-WA-Seattle": {
+      "rates": [
+        {
+          "effective": "2025-01-01",
+          "min_rate": "19.97"
+        },
+        {
+          "effective": "2026-01-01",
+          "min_rate": "20.76"
+        }
+      ],
+      "overtime": {
+        "daily_threshold": null,
+        "weekly_threshold": 40,
+        "multiplier": "1.5"
+      }
+    }
+  }
+}
