@@ -1,10 +1,10 @@
 import json
 import io
 
-from shift_pay_reconciler.json_format import format_json
-from shift_pay_reconciler.reconcile import reconcile
-from shift_pay_reconciler.csv_input import parse_shifts
-from shift_pay_reconciler.dataset import load_dataset
+from wage_checker.json_format import format_json
+from wage_checker.reconcile import reconcile
+from wage_checker.csv_input import parse_shifts
+from wage_checker.dataset import load_dataset
 
 
 class TestFormatJson:

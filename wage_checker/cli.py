@@ -18,14 +18,14 @@ def main(argv=None):
         try:
             bundled_dataset = load_dataset()
             version_str = dataset_version(bundled_dataset)
-            print(f"shift-pay-reconciler {__version__} (dataset minwage {version_str})")
+            print(f"wage-checker {__version__} (dataset minwage {version_str})")
             return 0
         except ValueError as e:
             print(f"error: {e}", file=sys.stderr)
             return 1
 
     parser = argparse.ArgumentParser(
-        prog='shift-pay-reconciler',
+        prog='wage-checker',
         description='Reconcile worker shift records against minimum wage requirements',
     )
 

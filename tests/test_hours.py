@@ -1,6 +1,6 @@
 from decimal import Decimal
 from datetime import datetime
-from shift_pay_reconciler.hours import compute_hours
+from wage_checker.hours import compute_hours
 
 
 def test_normal_same_day_shift():

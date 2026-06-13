@@ -1,9 +1,9 @@
 import io
 
-from shift_pay_reconciler.text_format import format_text
-from shift_pay_reconciler.reconcile import reconcile
-from shift_pay_reconciler.csv_input import parse_shifts
-from shift_pay_reconciler.dataset import load_dataset
+from wage_checker.text_format import format_text
+from wage_checker.reconcile import reconcile
+from wage_checker.csv_input import parse_shifts
+from wage_checker.dataset import load_dataset
 
 
 class TestFormatText:
@@ -21,7 +21,7 @@ class TestFormatText:
 
         # Verify header
         lines = text_str.split('\n')
-        assert lines[0] == "shift-pay-reconciler — reconciliation report"
+        assert lines[0] == "wage-checker — reconciliation report"
         assert lines[1] == "dataset: minwage 2026.1.0"
         assert lines[2] == ""
 
@@ -54,7 +54,7 @@ class TestFormatText:
 
         text_str = format_text(shift_results, summary, '2026.1.0')
 
-        assert "shift-pay-reconciler — reconciliation report" in text_str
+        assert "wage-checker — reconciliation report" in text_str
         assert "dataset: minwage 2026.1.0" in text_str
 
     def test_format_text_summary_only_true(self):
@@ -73,7 +73,7 @@ class TestFormatText:
         # Should not contain ROW table header
         assert "ROW  DATE" not in text_str
         # Should not contain dataset header
-        assert "shift-pay-reconciler" not in text_str
+        assert "wage-checker" not in text_str
         # Should contain summary data
         assert "shifts:" in text_str
         assert "total hours:" in text_str

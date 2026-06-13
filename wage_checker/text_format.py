@@ -42,7 +42,7 @@ def format_text(shift_results, summary, dataset_version, summary_only=False):
 
     if not summary_only:
         # Header section
-        lines.append("shift-pay-reconciler — reconciliation report")
+        lines.append("wage-checker — reconciliation report")
         lines.append(f"dataset: minwage {dataset_version}")
         lines.append("")
 

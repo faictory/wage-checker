@@ -1,5 +1,5 @@
 from decimal import Decimal
-from shift_pay_reconciler.overtime import apply_overtime
+from wage_checker.overtime import apply_overtime
 
 
 def test_daily_overtime_split():

@@ -1,4 +1,4 @@
-# shift-pay-reconciler
+# wage-checker
 
 A worker-side CLI that reconciles recorded shifts against bundled statutory
 minimum-wage and overtime floors, flagging each underpaid shift with its dollar
@@ -6,7 +6,7 @@ shortfall — turning opaque platform pay into actionable wage-claim evidence.
 
 ## Charter
 
-`shift-pay-reconciler` lets a gig/delivery/warehouse worker run their shift CSV
+`wage-checker` lets a gig/delivery/warehouse worker run their shift CSV
 against a bundled, versioned minimum-wage dataset and get a per-shift + summary
 report naming exactly which shifts were paid below the statutory floor and by how
 much.
@@ -14,7 +14,7 @@ much.
 ## Command Surface
 
 The tool is a single command (a CLI and an importable library). Invoked as
-`shift-pay-reconciler <CSV_PATH> [options]` or `python -m shift_pay_reconciler
+`wage-checker <CSV_PATH> [options]` or `python -m wage_checker
 <CSV_PATH> [options]`. There is one reconcile action; flags only shape input
 source and output presentation.
 
@@ -64,7 +64,7 @@ per CSV shift), then a `SUMMARY` block. Money is shown to the cent; hours to two
 decimals; `STATUS` is `OK` or `UNDERPAID`.
 
 ```
-shift-pay-reconciler — reconciliation report
+wage-checker — reconciliation report
 dataset: minwage 2026.1.0
 
 ROW  DATE        JURISDICTION    REG_HRS  OT_HRS  REQUIRED   PAID      SHORTFALL  STATUS
@@ -137,8 +137,8 @@ Running the tool with only the required CSV path performs the headline use case 
 reconcile every shift against the bundled statutory floors and report shortfalls:
 
 ```
-$ shift-pay-reconciler shifts.csv
-shift-pay-reconciler — reconciliation report
+$ wage-checker shifts.csv
+wage-checker — reconciliation report
 dataset: minwage 2026.1.0
 
 ROW  DATE        JURISDICTION    REG_HRS  OT_HRS  REQUIRED   PAID      SHORTFALL  STATUS
@@ -161,19 +161,19 @@ No flags, no config, no network: CSV in, reconciliation report out (exit 0).
 
 1. **Default reconcile (headline)** — text report to stdout:
    ```
-   $ shift-pay-reconciler shifts.csv
+   $ wage-checker shifts.csv
    ... (the per-shift table + SUMMARY block shown above) ...
    ```
 
 2. **Machine-readable output** — same numbers as JSON for tooling/spreadsheets:
    ```
-   $ shift-pay-reconciler shifts.csv --format json
+   $ wage-checker shifts.csv --format json
    {"dataset_version": "2026.1.0", "shifts": [ ... ], "summary": { ... }}
    ```
 
 3. **Just the bottom line** — only the deterministic totals:
    ```
-   $ shift-pay-reconciler shifts.csv --summary-only
+   $ wage-checker shifts.csv --summary-only
    SUMMARY
      shifts:               3
      total hours:          27.50
@@ -185,21 +185,21 @@ No flags, no config, no network: CSV in, reconciliation report out (exit 0).
 
 4. **Stream from stdin against an alternate dataset**:
    ```
-   $ cat shifts.csv | shift-pay-reconciler - --dataset ./my-minwage.json
+   $ cat shifts.csv | wage-checker - --dataset ./my-minwage.json
    ... reconciliation report computed from ./my-minwage.json ...
    ```
 
 5. **Malformed input** — row-level error, non-zero exit:
    ```
-   $ shift-pay-reconciler broken.csv ; echo "exit=$?"
+   $ wage-checker broken.csv ; echo "exit=$?"
    error: row 4: clock_out (2026-01-06T08:00) is not after clock_in (2026-01-06T19:00)
    exit=1
    ```
 
 6. **Versions**:
    ```
-   $ shift-pay-reconciler --version
-   shift-pay-reconciler 0.1.0 (dataset minwage 2026.1.0)
+   $ wage-checker --version
+   wage-checker 0.1.0 (dataset minwage 2026.1.0)
    ```
 
 ## Acceptance criteria
@@ -251,7 +251,7 @@ platforms using algorithms in ways that evade minimum wage. Seattle's itemized
 pay-statement mandate (Jan 2026) gives workers more data but no general tool to
 check that data against the statutory floor. The people hurt are low-wage workers
 who have the raw shift records but no way to convert them into a defensible
-underpayment figure for a wage claim. `shift-pay-reconciler` closes that gap: it
+underpayment figure for a wage claim. `wage-checker` closes that gap: it
 recomputes what each shift was legally owed and surfaces the shortfall.
 
 ## Goals / Non-goals
@@ -286,7 +286,7 @@ recomputes what each shift was legally owed and surfaces the shortfall.
 - **Offline & secret-free:** builds and tests with no network access, no secrets,
   no paid services, and no real user data. The minimum-wage dataset is a bundled
   versioned fixture shipped inside the package (e.g.
-  `shift_pay_reconciler/data/minwage-2026.1.0.json`); `--dataset` only ever reads
+  `wage_checker/data/minwage-2026.1.0.json`); `--dataset` only ever reads
   a local file.
 - **Dependencies:** permissive-licensed only (standard library is sufficient for
   CSV, datetime, decimal, and JSON; no heavyweight runtime deps required).
@@ -295,7 +295,7 @@ recomputes what each shift was legally owed and surfaces the shortfall.
 - **Makefile contract:** the repo Makefile honors the canonical targets —
   `make check` (ruff lint + pytest), `make test` (the pytest suite), `make build`
   (`pip install -e`), and `make run`. **`make run` invokes the real entrypoint on a
-  bundled fixture**: it runs `python -m shift_pay_reconciler examples/sample.csv`,
+  bundled fixture**: it runs `python -m wage_checker examples/sample.csv`,
   where `examples/sample.csv` is shipped in the repo and contains at least one
   underpaid shift and one overtime shift across multiple jurisdictions. `make run`
   therefore prints a real reconciliation report (the table + SUMMARY block above),

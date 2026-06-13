@@ -19,7 +19,7 @@ def load_dataset(path=None):
     if path is None:
         # Load from bundled package data
         try:
-            files = resources.files('shift_pay_reconciler').joinpath('data')
+            files = resources.files('wage_checker').joinpath('data')
             dataset_file = files.joinpath('minwage-2026.1.0.json')
             data = json.loads(dataset_file.read_text())
         except (FileNotFoundError, TypeError) as e:

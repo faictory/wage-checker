@@ -6,7 +6,7 @@ from pathlib import Path
 def test_e2e_smoke_check():
     repo_root = Path(__file__).parent.parent
     result = subprocess.run(
-        ["python", "-m", "shift_pay_reconciler", "examples/sample.csv"],
+        ["python", "-m", "wage_checker", "examples/sample.csv"],
         capture_output=True,
         text=True,
         cwd=str(repo_root),
@@ -16,7 +16,7 @@ def test_e2e_smoke_check():
 
     output = result.stdout
 
-    assert "shift-pay-reconciler — reconciliation report" in output
+    assert "wage-checker — reconciliation report" in output
 
     assert "UNDERPAID" in output
 
