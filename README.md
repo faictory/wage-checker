@@ -132,3 +132,7 @@ wage-checker 0.1.0 (dataset minwage 2026.1.0)
 ## More Information
 
 For full project design, goals, and acceptance criteria, see [DESIGN.md](DESIGN.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).
