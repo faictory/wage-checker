@@ -85,7 +85,7 @@ class TestCliJsonParity:
 
         # Run text format
         result_text = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'text'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'text'],
             capture_output=True,
             text=True,
         )
@@ -94,7 +94,7 @@ class TestCliJsonParity:
 
         # Run JSON format
         result_json = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
         )
@@ -143,7 +143,7 @@ class TestCliJsonParity:
         )
 
         result = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
         )
@@ -159,7 +159,7 @@ class TestCliJsonParity:
         )
 
         result = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
         )
@@ -177,7 +177,7 @@ class TestCliJsonParity:
         )
 
         result = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
         )
@@ -196,14 +196,14 @@ class TestCliJsonParity:
         )
 
         result_text = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'text'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'text'],
             capture_output=True,
             text=True,
         )
         assert result_text.returncode == 0
 
         result_json = subprocess.run(
-            ['python', '-m', 'shift_pay_reconciler', str(csv_file), '--format', 'json'],
+            ['python', '-m', 'wage_checker', str(csv_file), '--format', 'json'],
             capture_output=True,
             text=True,
         )

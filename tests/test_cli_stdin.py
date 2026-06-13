@@ -15,14 +15,14 @@ class TestCliStdinViaSubprocess:
 
         # Run CLI with file path
         result_file = subprocess.run(
-            [sys.executable, "-m", "shift_pay_reconciler", str(csv_file)],
+            [sys.executable, "-m", "wage_checker", str(csv_file)],
             capture_output=True,
             text=True,
         )
 
         # Run CLI with stdin
         result_stdin = subprocess.run(
-            [sys.executable, "-m", "shift_pay_reconciler", "-"],
+            [sys.executable, "-m", "wage_checker", "-"],
             input=csv_content,
             capture_output=True,
             text=True,

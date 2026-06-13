@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from shift_pay_reconciler.dataset import dataset_version, load_dataset, select_rate
+from wage_checker.dataset import dataset_version, load_dataset, select_rate
 
 
 class TestLoadDataset:

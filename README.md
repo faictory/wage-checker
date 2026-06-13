@@ -1,10 +1,10 @@
-# shift-pay-reconciler
+# wage-checker
 
 A worker-side CLI that reconciles recorded shifts against bundled statutory minimum-wage and overtime floors, flagging each underpaid shift with its dollar shortfall — turning opaque platform pay into actionable wage-claim evidence.
 
 ## What it does
 
-`shift-pay-reconciler` lets a gig, delivery, or warehouse worker run their shift CSV against a bundled, versioned minimum-wage dataset and get a per-shift and summary report naming exactly which shifts were paid below the statutory floor and by how much.
+`wage-checker` lets a gig, delivery, or warehouse worker run their shift CSV against a bundled, versioned minimum-wage dataset and get a per-shift and summary report naming exactly which shifts were paid below the statutory floor and by how much.
 
 The tool:
 - Reconciles shifts against statutory minimum-wage and overtime rules by jurisdiction
@@ -54,8 +54,8 @@ The shift's effective date (used to pick the rate in force) is the date of `cloc
 Text report with per-shift rows and summary:
 
 ```bash
-$ shift-pay-reconciler shifts.csv
-shift-pay-reconciler — reconciliation report
+$ wage-checker shifts.csv
+wage-checker — reconciliation report
 dataset: minwage 2026.1.0
 
 ROW  DATE        JURISDICTION    REG_HRS  OT_HRS  REQUIRED   PAID      SHORTFALL  STATUS
@@ -77,7 +77,7 @@ SUMMARY
 Same numbers as the text report, in JSON format for tools and spreadsheets:
 
 ```bash
-$ shift-pay-reconciler shifts.csv --format json
+$ wage-checker shifts.csv --format json
 {"dataset_version": "2026.1.0", "shifts": [ ... ], "summary": { ... }}
 ```
 
@@ -86,7 +86,7 @@ $ shift-pay-reconciler shifts.csv --format json
 Only the summary totals, suppressing per-shift rows:
 
 ```bash
-$ shift-pay-reconciler shifts.csv --summary-only
+$ wage-checker shifts.csv --summary-only
 SUMMARY
   shifts:               3
   total hours:          27.50
@@ -101,7 +101,7 @@ SUMMARY
 Stream CSV from stdin and use a custom local minimum-wage dataset:
 
 ```bash
-$ cat shifts.csv | shift-pay-reconciler - --dataset ./my-minwage.json
+$ cat shifts.csv | wage-checker - --dataset ./my-minwage.json
 ... reconciliation report computed from ./my-minwage.json ...
 ```
 
@@ -110,8 +110,8 @@ $ cat shifts.csv | shift-pay-reconciler - --dataset ./my-minwage.json
 Print the tool version and bundled dataset version:
 
 ```bash
-$ shift-pay-reconciler --version
-shift-pay-reconciler 0.1.0 (dataset minwage 2026.1.0)
+$ wage-checker --version
+wage-checker 0.1.0 (dataset minwage 2026.1.0)
 ```
 
 ## Command-line Options
@@ -132,3 +132,7 @@ shift-pay-reconciler 0.1.0 (dataset minwage 2026.1.0)
 ## More Information
 
 For full project design, goals, and acceptance criteria, see [DESIGN.md](DESIGN.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).

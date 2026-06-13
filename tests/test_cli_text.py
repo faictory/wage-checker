@@ -16,7 +16,7 @@ class TestCliText:
 
         # Run CLI via subprocess
         result = subprocess.run(
-            [sys.executable, "-m", "shift_pay_reconciler", str(csv_file)],
+            [sys.executable, "-m", "wage_checker", str(csv_file)],
             capture_output=True,
             text=True
         )
@@ -26,7 +26,7 @@ class TestCliText:
         output = result.stdout
 
         # Assert header is present
-        assert "shift-pay-reconciler — reconciliation report" in output
+        assert "wage-checker — reconciliation report" in output
 
         # Assert each shift shows SHORTFALL values and UNDERPAID status
         assert "56.46" in output  # US-WA-Seattle shortfall
@@ -60,7 +60,7 @@ class TestCliText:
 
         # Run CLI with --summary-only flag
         result = subprocess.run(
-            [sys.executable, "-m", "shift_pay_reconciler", str(csv_file), "--summary-only"],
+            [sys.executable, "-m", "wage_checker", str(csv_file), "--summary-only"],
             capture_output=True,
             text=True
         )

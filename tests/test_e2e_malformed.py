@@ -5,7 +5,7 @@ class TestE2eMalformed:
     def test_malformed_csv_exits_nonzero_with_row_error(self):
         """E2E: running on broken.csv exits non-zero with row-level error."""
         result = subprocess.run(
-            ["python", "-m", "shift_pay_reconciler", "examples/broken.csv"],
+            ["python", "-m", "wage_checker", "examples/broken.csv"],
             capture_output=True,
             text=True,
         )

@@ -3,8 +3,8 @@ import pytest
 from io import StringIO
 from unittest.mock import patch
 
-from shift_pay_reconciler.cli import main
-from shift_pay_reconciler import __version__
+from wage_checker.cli import main
+from wage_checker import __version__
 
 
 class TestCliValidCsv:
@@ -21,7 +21,7 @@ class TestCliValidCsv:
 
         assert result == 0
         output = mock_stdout.getvalue()
-        assert 'shift-pay-reconciler' in output.lower() or 'summary' in output.lower()
+        assert 'wage-checker' in output.lower() or 'summary' in output.lower()
 
     def test_valid_csv_with_default_format(self, tmp_path):
         """Default format is text when --format is not specified."""
@@ -41,13 +41,13 @@ class TestCliValidCsv:
 
 class TestCliVersion:
     def test_version_flag_prints_correct_format(self):
-        """--version prints 'shift-pay-reconciler <ver> (dataset minwage <ver>)' and returns 0."""
+        """--version prints 'wage-checker <ver> (dataset minwage <ver>)' and returns 0."""
         with patch('sys.stdout', new_callable=StringIO) as mock_stdout:
             result = main(['--version'])
 
         assert result == 0
         output = mock_stdout.getvalue().strip()
-        assert output.startswith('shift-pay-reconciler')
+        assert output.startswith('wage-checker')
         assert __version__ in output
         assert 'dataset minwage' in output
 
@@ -58,7 +58,7 @@ class TestCliVersion:
 
         assert result == 0
         output = mock_stdout.getvalue().strip()
-        assert output.startswith(f'shift-pay-reconciler {__version__}')
+        assert output.startswith(f'wage-checker {__version__}')
 
 
 class TestCliHelp:
@@ -228,9 +228,9 @@ class TestCliDataset:
         )
 
         with patch('sys.stdout', new_callable=StringIO):
-            with patch('shift_pay_reconciler.cli.load_dataset') as mock_load:
-                with patch('shift_pay_reconciler.cli.parse_shifts'):
-                    with patch('shift_pay_reconciler.cli.reconcile'):
+            with patch('wage_checker.cli.load_dataset') as mock_load:
+                with patch('wage_checker.cli.parse_shifts'):
+                    with patch('wage_checker.cli.reconcile'):
                         main([str(csv_file), '--dataset', '/path/to/dataset.json'])
 
         mock_load.assert_called_with('/path/to/dataset.json')
@@ -258,7 +258,7 @@ class TestCliAcceptanceCriteria:
 
         assert result == 0
         output = mock_stdout.getvalue().strip()
-        assert f'shift-pay-reconciler {__version__}' in output
+        assert f'wage-checker {__version__}' in output
         assert 'dataset minwage' in output
 
     def test_acceptance_3_help_exit0(self):

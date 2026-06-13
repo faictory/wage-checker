@@ -1,13 +1,13 @@
 from datetime import datetime
 from decimal import Decimal
 
-import shift_pay_reconciler
-from shift_pay_reconciler.hours import compute_hours
-from shift_pay_reconciler.overtime import apply_overtime
+import wage_checker
+from wage_checker.hours import compute_hours
+from wage_checker.overtime import apply_overtime
 
 
 def test_version():
-    assert shift_pay_reconciler.__version__ == "0.1.0"
+    assert wage_checker.__version__ == "0.1.0"
 
 
 def test_compute_hours_same_day_no_break():

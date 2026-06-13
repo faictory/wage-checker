@@ -2,7 +2,7 @@ import pytest
 from decimal import Decimal
 from datetime import datetime
 from io import StringIO
-from shift_pay_reconciler.csv_input import parse_shifts
+from wage_checker.csv_input import parse_shifts
 
 
 def test_well_formed_three_row_csv():

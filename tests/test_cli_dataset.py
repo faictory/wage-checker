@@ -3,7 +3,7 @@ from io import StringIO
 from unittest.mock import patch
 from decimal import Decimal
 
-from shift_pay_reconciler.cli import main
+from wage_checker.cli import main
 
 
 class TestCliDatasetIntegration:

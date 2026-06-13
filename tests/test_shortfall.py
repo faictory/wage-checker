@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from shift_pay_reconciler.reconcile import shortfall
+from wage_checker.reconcile import shortfall
 
 
 class TestShortfall:
